@@ -3,7 +3,12 @@ const Product = mongoose.model("Product");
 
 module.exports = {
    async index(req, res) {
-      const products = await Product.find();
+      const { page = 1 } = req.query;
+      const { limit = 5 } = req.query;
+      const products = await Product.paginate(
+         {},
+         { page: parseInt(page), limit: parseInt(limit) }
+      );
       return res.json(products);
    },
    async show(req, res) {
